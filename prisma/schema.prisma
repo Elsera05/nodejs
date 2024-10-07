@@ -15,7 +15,7 @@ model cars {
   seat          Int?
   baggage       Int?
   transmission  String?   @db.VarChar
-  year          DateTime? @db.Date
+  year          String?   @db.VarChar
   name          String?   @db.VarChar
   description   String?
   isDriver      Boolean?
@@ -23,38 +23,35 @@ model cars {
   img           String?
   price         Int?
   createdDt     DateTime? @default(now()) @db.Timestamp(6)
-  updatedDt     DateTime? @db.Timestamp(6)
+  updatedDt     DateTime? @updatedAt
   createdBy     String?   @db.VarChar
   updatedBy     String?   @db.VarChar
+  order         order[]
 
   @@index([name], map: "car_name_index")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model districts {
-  kode_district  Int?
-  kode_regencies Int?
-  nama           String? @db.VarChar(50)
-
-  @@index([nama], map: "idx_district_name")
-  @@ignore
-}
-
 model order {
-  id         BigInt    @id @default(autoincrement())
-  order_no   String    @unique @db.VarChar
-  user_id    BigInt
-  car_id     BigInt
-  start_time DateTime? @db.Timestamp(6)
-  end_time   DateTime? @db.Timestamp(6)
-  total      Float?
-  is_driver  Boolean?
-  is_expired Boolean?
-  status     String?   @db.VarChar
+  id            Int    @id @default(autoincrement())
+  order_no      String    @unique @db.VarChar
+  user_id       Int
+  car_id        Int
+  start_time    DateTime? @db.Timestamp(6)
+  end_time      DateTime? @db.Timestamp(6)
+  total         Float?
+  is_driver     Boolean?
+  is_expired    Boolean?
+  status        String?   @db.VarChar
+  createdDt     DateTime? @default(now()) @db.Timestamp(6)
+  updatedDt     DateTime? @updatedAt
+  createdBy     String?   @db.VarChar
+  updatedBy     String?   @db.VarChar
+  cars       cars?     @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users {
-  id             BigInt    @id @default(autoincrement())
+  id             Int    @id @default(autoincrement())
   fullname       String    @db.VarChar
   email          String    @unique @db.VarChar(30)
   password       String    @db.VarChar
@@ -65,8 +62,9 @@ model users {
   phone_number   String    @unique @db.VarChar
   driver_license String?
   birthdate      DateTime? @db.Date
-  createdDt      DateTime? @db.Timestamp(6)
-  updatedDt      DateTime? @db.Timestamp(6)
+  createdDt      DateTime? @default(now()) @db.Timestamp(6)
+  updatedDt      DateTime? @updatedAt
   createdBy      String?   @db.VarChar
   updatedBy      String?   @db.VarChar
+  order          order[]
 }
