@@ -4,6 +4,7 @@ const UserModel = require('../../models/users')
 const express = require("express");
 const { encryptPassword } = require("../../helpers/bcrypt.js");
 const router = express.Router();
+const {authorize, checkRole} = require("../../middlewares/authorization")
 
 const users = new UserModel();
 
@@ -24,27 +25,27 @@ class UsersController extends BaseController {
     constructor(model) {
         super(model);
         router.get("/", this.getAll);
-        router.post("/", this.validation(userSchema), this.checkUnique,this.encrypt,this.create);
+        router.post("/", this.validation(userSchema), authorize, checkRole(['admin']), this.checkUnique, this.encrypt, this.create);
         router.get("/:id", this.get);
-        router.put("/:id", this.validation(userSchema), this.checkUnique,this.update);
+        router.put("/:id", this.validation(userSchema), authorize, checkRole(['admin']), this.checkUnique, this.update);
         router.delete("/:id", this.delete);
     }
     // middleware
-    checkUnique = async (req,res,next) => {
+    checkUnique = async (req, res, next) => {
         const checkUnique = await this.model.getOne({
-            where:{
-                OR:[
+            where: {
+                OR: [
                     {
-                        email:req.body.email,
+                        email: req.body.email,
                     },
                     {
-                        phone_number:req.body.phone_number,
+                        phone_number: req.body.phone_number,
                     },
                 ],
             },
-            select:{
-                email:true,
-                phone_number:true,
+            select: {
+                email: true,
+                phone_number: true,
             },
         });
         if (checkUnique)
@@ -52,7 +53,7 @@ class UsersController extends BaseController {
         next()
     };
     // Middleware to encrypt password
-    encrypt = async (req, res, next) => { 
+    encrypt = async (req, res, next) => {
         const encryptedPass = await encryptPassword(req.body.password);
         req.body.password = encryptedPass;
         next();

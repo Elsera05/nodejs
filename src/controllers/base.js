@@ -1,5 +1,6 @@
 // abstraction / abtract class
 
+const ValidationError = require("../helpers/errors/validation");
 const validation = require("../middlewares/validation");
 const { Prisma } = require("@prisma/client");
 
@@ -68,7 +69,13 @@ class BaseController {
 
   create = async (req, res) => {
     try {
-      const resource = await this.model.set(req.body);
+        const data = {
+            ...req.body,
+            createdBy: req.user.fullname,
+            updatedBy: req.user.fullname
+        }
+
+      const resource = await this.model.set(data);
 
       return res.status(201).json(
         this.apiSend({
@@ -100,6 +107,8 @@ class BaseController {
         if (err.code === 'P2025') {
           return next(new NotFoundError(err, `Car with id=${id} not found!`));
         }
+        // if (err.code === 'P2025') {
+        //     return next(new ValidationError(err, ``));
       }
 
       next(new ServerError(err));
