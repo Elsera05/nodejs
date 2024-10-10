@@ -1,7 +1,7 @@
 const BaseModel = require("./index");
-class UserModel extends BaseModel {
+class OrderModel extends BaseModel {
   constructor() {
-    super("users");
+    super("order");
     this.select = {
         fullname: true,
         email: true,
@@ -17,4 +17,4 @@ class UserModel extends BaseModel {
   }
 }
 
-module.exports = UserModel
+module.exports = OrderModel
