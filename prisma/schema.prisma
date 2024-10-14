@@ -68,3 +68,71 @@ model users {
   updatedBy      String?   @db.VarChar
   order          order[]
 }
+model roles {
+  id         Int          @id @default(autoincrement())
+  role       String
+  createdDt  DateTime?    @default(now()) @db.Timestamp(6)
+  updatedDt  DateTime?    @updatedAt
+  createdBy  String?      @db.VarChar
+  updatedBy  String?      @db.VarChar
+  menuAccess menuAccess[]
+}
+
+model menu {
+  id           Int            @id @default(autoincrement())
+  name         String
+  route        String?
+  title        String
+  is_submenu   Boolean        @default(false)
+  method       String?
+  menu_id      Int? 
+  createdDt    DateTime?      @default(now()) @db.Timestamp(6)
+  updatedDt    DateTime?      @updatedAt
+  createdBy    String?        @db.VarChar
+  updatedBy    String?        @db.VarChar
+  submenu      menu?          @relation("submenu", fields: [menu_id], references: [id])
+  menu         menu[]         @relation("submenu")
+  menuFeatures menuFeatures[]
+  menuAccess   menuAccess[]
+}
+
+model menuFeatures {
+  id            Int             @id @default(autoincrement())
+  menu_id       Int
+  name          String
+  route         String?
+  method        String?
+  createdDt     DateTime?       @default(now()) @db.Timestamp(6)
+  updatedDt     DateTime?       @updatedAt
+  createdBy     String?         @db.VarChar
+  updatedBy     String?         @db.VarChar
+  menu          menu            @relation(fields: [menu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  featureAccess featureAccess[]
+}
+
+model menuAccess {
+  id            Int             @id @default(autoincrement())
+  role_id       Int
+  menu_id       Int
+  visible       Boolean
+  createdDt     DateTime?       @default(now()) @db.Timestamp(6)
+  updatedDt     DateTime?       @updatedAt
+  createdBy     String?         @db.VarChar
+  updatedBy     String?         @db.VarChar
+  roles         roles           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  menu          menu            @relation(fields: [menu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  featureAccess featureAccess[]
+}
+
+model featureAccess {
+  id             Int          @id @default(autoincrement())
+  menu_access_id Int
+  features_id    Int
+  visible        Boolean
+  createdDt      DateTime?    @default(now()) @db.Timestamp(6)
+  updatedDt      DateTime?    @updatedAt
+  createdBy      String?      @db.VarChar
+  updatedBy      String?      @db.VarChar
+  menuAccess     menuAccess   @relation(fields: [menu_access_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  menufeatures   menuFeatures @relation(fields: [features_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
