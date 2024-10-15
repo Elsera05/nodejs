@@ -1,14 +1,15 @@
 {
-  "openapi": "3.0.3",
+  "swagger": "2.0",
   "info": {
-    "title": "Car Rental",
+    "tittle": "Car Rental",
     "description": "Car RentalAPI",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "title": "REST API"
   },
-  "servers": [
-    {
-      "url": "http://localhost:3000/"
-    }
+  "host": "http://localhost:3000/api/v1",
+  "basePath": "/",
+  "schemes": [
+    "http"
   ],
   "paths": {
     "/": {
@@ -28,44 +29,32 @@
           {
             "name": "manufactur",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "type",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "yearMin",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "yearMax",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "priceMin",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "priceMax",
             "in": "query",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -80,9 +69,7 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -131,16 +118,12 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -176,8 +159,24 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "phone_number": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -187,26 +186,6 @@
           },
           "403": {
             "description": "Forbidden"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "example": "any"
-                  },
-                  "phone_number": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -227,16 +206,12 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -257,56 +232,56 @@
         }
       }
     },
-    "/api/v1/auth/signin": {
+    "/api/v1/auth/signIn": {
       "post": {
         "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/api/v1/auth/signup": {
+    "/api/v1/auth/signUp": {
       "post": {
         "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "example": "any"
-                  },
-                  "password": {
-                    "example": "any"
-                  }
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
           }
         }
       }
@@ -326,8 +301,27 @@
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "car_id": {
+                  "example": "any"
+                },
+                "is_driver": {
+                  "example": "any"
+                },
+                "start_time": {
+                  "example": "any"
+                },
+                "end_time": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -337,29 +331,6 @@
           },
           "401": {
             "description": "Unauthorized"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "car_id": {
-                    "example": "any"
-                  },
-                  "is_driver": {
-                    "example": "any"
-                  },
-                  "start_time": {
-                    "example": "any"
-                  },
-                  "end_time": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -372,16 +343,12 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -399,15 +366,23 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "payment": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
@@ -417,20 +392,6 @@
           },
           "401": {
             "description": "Unauthorized"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "payment": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -452,16 +413,12 @@
           {
             "name": "x-forwarded-host",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           },
           {
             "name": "host",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
+            "type": "string"
           }
         ],
         "responses": {
@@ -469,6 +426,15 @@
             "description": "OK"
           }
         }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

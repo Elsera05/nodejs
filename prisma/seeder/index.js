@@ -1,19 +1,20 @@
 const { PrismaClient } = require("@prisma/client");
 
-const userSeed = require('./seeder/user')
-const carSeed = require('./seeder/cars')
-const roleSeed = require('./seeder/role')
-const roleAccessSeed = require('./seeder/roleAccess')
+const roleSeed = require('./role')
+const menuSeed = require('./menu')
+const userSeed = require('./user')
+const accessSeed = require('./access')
+
 
 const prisma = new PrismaClient();
 
 async function main() {
   const role = await roleSeed()
+  const menu = await menuSeed()
   const user = await userSeed()
-  const car = await carSeed()
-  const access = await roleAccessSeed()
+  const access = await accessSeed()
 
-  console.log(user, role, car, access)
+  console.log(user, role, menu, access)
   console.log(`Database has been seeded. 🌱`);
 }
 

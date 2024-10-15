@@ -1,10 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
-const { encryptPassword } = require("../../src/helper/bcrypt");
+const { encryptPassword } = require("../../src/helpers/bcrypt");
 
 const prisma = new PrismaClient();
 
 async function userSeed() {
-  return await prisma.user.upsert({
+  return await prisma.users.upsert({
     where: { email: "superadmin@mail.com" },
     update: {},
     create: {
