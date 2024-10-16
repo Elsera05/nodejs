@@ -13,7 +13,7 @@
     "docker:down": "docker compose down",
     "migrate:deploy" : "yarn prisma migrate deploy",
     "jest": "jest -1 --collectCoverage",
-    "test": "dotenv -e .env.test -- cross-env NODE_ENV=test yarn migrate:deploy && yarn seed:test && yarn jest "
+    "test": "dotenv -e .env.test -- cross-env NODE_ENV=test yarn migrate:deploy && yarn seed:test && yarn jest:run "
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

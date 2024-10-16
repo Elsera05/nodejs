@@ -9,7 +9,7 @@ const testUser = {
 };
 
 describe("POST /api/v1/auth/signup", () => {
-    it("should response with 200 status code", () => {
+    it("should response with 200 status code", (done) => {
         request(server)
             .post("api/v1/auth/signup")
             .send(testUser)

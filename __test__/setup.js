@@ -1,3 +1,4 @@
+// require('dotenv').config({path: '../.env.test'})
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient()
 const server = require("../index")
