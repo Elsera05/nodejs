@@ -2,12 +2,14 @@
 // data data akses. -> data acces
 // maka perlu dibuatkan function 
 
+const { equal } = require("joi");
 const accessModel = require("../models/access");
 const access = new accessModel();
 
-async function rbac(menu, accessParam) {
+function rbac(menuParam, accessParam) {
     return async (req, res, next) => {
         const roleId = req.user.roleId
+        console.log(roleId)
         if (roleId === 1) next()
         // SELECT * FROM access a
         // JOIN menu m on a.menu_id = m.id
@@ -16,24 +18,22 @@ async function rbac(menu, accessParam) {
         // price 
         const accessByRole = await access.getOne({
             where: {
-                roleId,
+                role_id: roleId,
                 grant: {
-                    equals: {
-                        [accessParam]: true
-                    }
-                }
-            },
-            include: {
+                    path: [accessParam],
+                    equals :true,
+                },
                 menu: {
-                    where: {
-                        name: menu
-                    }
-                }
+                    is: {
+                        name: menuParam,
+                    },
+
+                },
             }
         });
         console.log(accessByRole)
-        if (!accessByRole) next(new ValidationError('Forbidden'))
-        next()
+        if (!accessByRole) return next(new ValidationError('Forbidden'))
+        return next()
     }
 
 }

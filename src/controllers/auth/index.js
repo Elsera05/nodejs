@@ -81,7 +81,11 @@ class AuthController extends BaseController {
 
             // hashing 
             const hashedPassword = await encryptPassword(password, 10);
-            const newUser = await this.model.set({ email, password: hashedPassword,role:"user" });
+            const newUser = await this.model.set({ 
+                email,
+                password : await encryptPassword(password),
+                roleId: 3,
+             });
             // const token = createToken({ id: newUser.id });
 
             return res.status(201).json(

@@ -7,21 +7,25 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "gendoc": "node ./src/helpers/swaggerAutogen.js",
-    "seed":"node ./prisma/seeder/index.js"
+    "seed": "node ./prisma/seeder/index.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "eslint": "^9.11.1",
     "globals": "^15.10.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
-    "prisma": "^5.20.0"
+    "prisma": "^5.20.0",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "joi": "^17.13.3",
