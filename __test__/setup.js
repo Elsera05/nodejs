@@ -1,10 +1,9 @@
-// require('dotenv').config({path: '../.env.test'})
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient()
 const server = require("../index")
 
 
-afterAl( async () => {
+afterAll( async () => {
     await prisma.order.deleteMany()
     await prisma.users.deleteMany()
     await prisma.access.deleteMany()

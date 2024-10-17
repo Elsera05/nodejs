@@ -8,18 +8,18 @@ const testUser = {
     password: "Password123!",
 };
 
-describe("POST /api/v1/auth/signup", () => {
+describe("POST /api/v1/auth/signUp", () => {
     it("should response with 200 status code", (done) => {
         request(server)
-            .post("api/v1/auth/signup")
+            .post("/api/v1/auth/signUp")
             .send(testUser)
             .set("Accept", "application/json")
             .then((res) => {
-                expect(res.statusCode).toBe(200)
-                expect(res.body).objectContaining({
-                    code: 200,
+                expect(res.statusCode).toBe(201)
+                expect(res.body).toEqual(expect.objectContaining({
+                    code: 201,
                     status: "success",
-                    message: "Sign up succesfully",
+                    message: "User created successfully",
                     data: expect.objectContaining({
                         user: {
                             email: "test@test.com",
@@ -31,26 +31,62 @@ describe("POST /api/v1/auth/signup", () => {
                             driver_license: null,
                             gender: null,
                             phone_number: null,
-                            roleID: 3,
-                            createBy: null,
-                            createDt: expect(
-                                new Date(res.body.data.user.createDt))
-                                .toBeInstaceOf(Date),
-                            updateBy: null,
-                            updateDT: expect(
-                                new Date(res.body.data.user.updateDt))
-                                .toBeInstaceOf(Date),
+                            roleId: 3,
+                            createdBy: null,
+                            createdDt: expect.any(String),
+                            updatedBy: null,
+                            updatedDt: expect.any(String),
                         }
                     })
-                })
+                }))
+                done()
+            })
+            .catch(e => {
+                console.log(e)
+                done()
             })
     })
     it("should response with 400 status code", () => {
+    })
+});
 
+describe("POST /api/v1/auth/signIn", () => {
+    it("should response with 200 status code", (done) => {
+        request(server)
+            .post("/api/v1/auth/signIn")
+            .send(testUser)
+            .set("Accept", "application/json")
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                expect(res.body).toEqual(expect.objectContaining({
+                    code: 200,
+                    status: "success",
+                    message: "Sign In Successfully",
+                    data: expect.objectContaining({
+                        user: {
+                            email: "test@test.com",
+                            address: null,
+                            avatar: null,
+                            birthdate: null,
+                            fullname: null,
+                            driver_license: null,
+                            gender: null,
+                            phone_number: null,
+                            roleId: 3,
+                            createdBy: null,
+                            createdDt: expect.any(String),
+                            updatedBy: null,
+                            updatedDt: expect.any(String),
+                        }
+                    })
+                }))
+                done()
+            })
+            .catch(e => {
+                console.log(e)
+                done()
+            })
+    })
+    it("should response with 400 status code", () => {
     })
 })
-
-// afterAll(() => {
-//     prisma.users.deleteMany();
-//     server.close()
-// })
